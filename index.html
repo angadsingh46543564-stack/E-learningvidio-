@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EduSphere | Learn Without Limits</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===================== PUBLIC SITE ===================== -->
+<div id="public-screen">
+  <nav class="pub-nav">
+    <div class="brand"><div class="mark">E</div> EduSphere</div>
+    <div class="pub-links">
+      <a href="#" onclick="scrollToId('cat-section')">Categories</a>
+      <a href="#" onclick="scrollToId('courses-section')">Courses</a>
+      <a href="#" onclick="scrollToId('why-section')">Why Us</a>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-outline btn-sm" onclick="openAuth('login')">Login</button>
+      <button class="btn btn-primary btn-sm" onclick="openAuth('register')">Get Started</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>Learn new skills with <span>EduSphere</span></h1>
+    <p>A complete e-learning platform — video lectures, notes, quizzes, progress tracking and certificates, all in one place.</p>
+    <div class="searchbar-hero">
+      <input id="home-search" placeholder="Search for courses..." oninput="renderCatalog('courses-section-grid')">
+      <button class="btn btn-primary" onclick="scrollToId('courses-section')">Search</button>
+    </div>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="scrollToId('courses-section')">Explore Courses</button>
+      <button class="btn btn-outline" onclick="openAuth('register')">Become an Instructor</button>
+    </div>
+  </section>
+
+  <section class="section" id="cat-section">
+    <h2>Course Categories</h2>
+    <div class="lead">Browse courses by category</div>
+    <div class="cat-grid" id="cat-grid"></div>
+  </section>
+
+  <section class="section" id="courses-section">
+    <h2>Popular Courses</h2>
+    <div class="lead">Hand-picked courses to get you started</div>
+    <div class="course-grid" id="courses-section-grid"></div>
+  </section>
+
+  <section class="section" id="why-section">
+    <h2>Why Choose EduSphere</h2>
+    <div class="lead">Everything you need to learn effectively</div>
+    <div class="why-grid">
+      <div class="why-card"><div class="ic">🎥</div><h4>HD Video Lectures</h4><p style="color:var(--muted);font-size:12.5px;">Learn at your own pace with structured video content.</p></div>
+      <div class="why-card"><div class="ic">📊</div><h4>Progress Tracking</h4><p style="color:var(--muted);font-size:12.5px;">Track lessons completed and pick up right where you left off.</p></div>
+      <div class="why-card"><div class="ic">📝</div><h4>Quizzes & Tests</h4><p style="color:var(--muted);font-size:12.5px;">Test your knowledge with MCQ quizzes after every course.</p></div>
+      <div class="why-card"><div class="ic">🎓</div><h4>Certificates</h4><p style="color:var(--muted);font-size:12.5px;">Earn a certificate of completion for every finished course.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="stats-strip" id="home-stats"></div>
+  </section>
+
+  <section class="section">
+    <h2>What Our Students Say</h2>
+    <div class="lead">Real feedback from the EduSphere community</div>
+    <div class="testi-grid">
+      <div class="testi-card">"The progress tracking and quizzes kept me motivated to finish every course I started." <div class="who">— Priya M., Web Development student</div></div>
+      <div class="testi-card">"Clean interface, easy to upload lectures and notes as an instructor." <div class="who">— Arjun D., Instructor</div></div>
+      <div class="testi-card">"Got my certificate right after finishing the course — great feeling!" <div class="who">— Sana K., Data Science student</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="cta-box">
+      <h2>Start learning today</h2>
+      <p>Join thousands of students already learning on EduSphere</p>
+      <button class="btn btn-primary" onclick="openAuth('register')">Create Free Account</button>
+    </div>
+  </section>
+
+  <footer class="pub-footer">
+    <div class="brand" style="justify-content:center;margin-bottom:10px;">EduSphere</div>
+    © 2026 EduSphere. Built for demonstration as a college project.
+  </footer>
+</div>
+
+<!-- ===================== AUTH MODAL ===================== -->
+<div class="modal-bg" id="auth-modal">
+  <div class="modal">
+    <div class="tab-strip" style="width:100%;margin-bottom:14px;">
+      <button class="tab-btn" id="tab-login" style="flex:1" onclick="switchAuthTab('login')">Login</button>
+      <button class="tab-btn" id="tab-register" style="flex:1" onclick="switchAuthTab('register')">Register</button>
+    </div>
+    <div class="error-msg" id="auth-error"></div>
+    <div class="ok-msg" id="auth-ok"></div>
+
+    <!-- LOGIN -->
+    <form id="form-login" onsubmit="return handleLogin(event)">
+      <div class="tab-strip" style="margin-bottom:12px;">
+        <button type="button" class="role-btn active" data-role="student" onclick="setLoginRole('student')">Student</button>
+        <button type="button" class="role-btn" data-role="instructor" onclick="setLoginRole('instructor')">Instructor</button>
+        <button type="button" class="role-btn" data-role="admin" onclick="setLoginRole('admin')">Admin</button>
+      </div>
+      <div class="field" style="margin-bottom:12px"><label>Email</label><input id="li-email" type="email" required></div>
+      <div class="field" style="margin-bottom:12px"><label>Password</label><input id="li-pass" type="password" required></div>
+      <div style="text-align:right;margin-bottom:12px;"><a href="#" style="font-size:12px;color:var(--p);font-weight:600;" onclick="openForgot(event)">Forgot password?</a></div>
+      <button class="btn btn-primary btn-block" type="submit">Login</button>
+      <div style="font-size:11px;color:var(--muted);margin-top:12px;text-align:center;line-height:1.7;">
+        Demo student: student@demo.com / pass1234<br>Demo instructor: instructor@demo.com / pass1234<br>Demo admin: admin@demo.com / admin123
+      </div>
+    </form>
+
+    <!-- REGISTER -->
+    <form id="form-register" class="hidden" onsubmit="return handleRegister(event)">
+      <div class="tab-strip" style="margin-bottom:12px;">
+        <button type="button" class="reg-role-btn active" data-role="student" onclick="setRegRole('student')">Join as Student</button>
+        <button type="button" class="reg-role-btn" data-role="instructor" onclick="setRegRole('instructor')">Join as Instructor</button>
+      </div>
+      <div class="field" style="margin-bottom:12px"><label>Full Name</label><input id="r-name" required></div>
+      <div class="field" style="margin-bottom:12px"><label>Email</label><input id="r-email" type="email" required></div>
+      <div class="field" style="margin-bottom:12px"><label>Password</label><input id="r-pass" type="password" minlength="6" required></div>
+      <button class="btn btn-teal btn-block" type="submit">Create Account</button>
+      <div id="reg-note" class="hidden" style="font-size:11px;color:var(--muted);margin-top:10px;">Instructor accounts require admin approval before you can log in.</div>
+    </form>
+
+    <!-- FORGOT PASSWORD -->
+    <form id="form-forgot" class="hidden" onsubmit="return handleForgot(event)">
+      <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px;">Enter your registered email. In this demo, your password will be reset to <b>reset1234</b>.</p>
+      <div class="field" style="margin-bottom:12px"><label>Email</label><input id="fg-email" type="email" required></div>
+      <button class="btn btn-primary btn-block" type="submit">Reset Password</button>
+      <div style="text-align:center;margin-top:10px;"><a href="#" style="font-size:12px;color:var(--p);" onclick="switchAuthTab('login')">Back to login</a></div>
+    </form>
+
+    <button class="btn btn-outline btn-block" style="margin-top:12px;" onclick="closeAuth()">Close</button>
+  </div>
+</div>
+
+<!-- ===================== APP SHELL ===================== -->
+<div class="overlay-click" id="overlay" onclick="toggleSidebar(false)"></div>
+<div id="app-screen">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="mark">E</div> EduSphere</div>
+
+    <div id="nav-student" class="hidden">
+      <div class="nav-sep">Menu</div>
+      <div class="nav-item" data-view="s-dashboard" onclick="showView('s-dashboard')"><span class="ic">🏠</span> Dashboard</div>
+      <div class="nav-item" data-view="s-browse" onclick="showView('s-browse')"><span class="ic">🔍</span> Browse Courses</div>
+      <div class="nav-item" data-view="s-mycourses" onclick="showView('s-mycourses')"><span class="ic">📚</span> My Courses</div>
+      <div class="nav-item" data-view="s-certificates" onclick="showView('s-certificates')"><span class="ic">🎓</span> Certificates</div>
+      <div class="nav-item" data-view="s-notifications" onclick="showView('s-notifications')"><span class="ic">🔔</span> Notifications</div>
+      <div class="nav-item" data-view="s-profile" onclick="showView('s-profile')"><span class="ic">👤</span> Profile</div>
+    </div>
+
+    <div id="nav-instructor" class="hidden">
+      <div class="nav-sep">Menu</div>
+      <div class="nav-item" data-view="i-dashboard" onclick="showView('i-dashboard')"><span class="ic">🏠</span> Dashboard</div>
+      <div class="nav-item" data-view="i-courses" onclick="showView('i-courses')"><span class="ic">📚</span> My Courses</div>
+      <div class="nav-item" data-view="i-students" onclick="showView('i-students')"><span class="ic">👥</span> Enrolled Students</div>
+      <div class="nav-item" data-view="i-profile" onclick="showView('i-profile')"><span class="ic">👤</span> Profile</div>
+    </div>
+
+    <div id="nav-admin" class="hidden">
+      <div class="nav-sep">Admin</div>
+      <div class="nav-item" data-view="a-dashboard" onclick="showView('a-dashboard')"><span class="ic">📊</span> Overview</div>
+      <div class="nav-item" data-view="a-students" onclick="showView('a-students')"><span class="ic">🎒</span> Students</div>
+      <div class="nav-item" data-view="a-instructors" onclick="showView('a-instructors')"><span class="ic">🧑‍🏫</span> Instructors</div>
+      <div class="nav-item" data-view="a-courses" onclick="showView('a-courses')"><span class="ic">📚</span> Courses</div>
+      <div class="nav-item" data-view="a-categories" onclick="showView('a-categories')"><span class="ic">🏷️</span> Categories</div>
+      <div class="nav-item" data-view="a-feedback" onclick="showView('a-feedback')"><span class="ic">💬</span> Feedback</div>
+      <div class="nav-item" data-view="a-settings" onclick="showView('a-settings')"><span class="ic">⚙️</span> Settings</div>
+    </div>
+
+    <div class="sidebar-foot">
+      <div class="nav-item" onclick="goHome()"><span class="ic">🏠</span> Public Site</div>
+      <div class="nav-item" onclick="logout()"><span class="ic">🚪</span> Logout</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="hamburger" onclick="toggleSidebar(true)">☰</button>
+        <div><h1 id="page-title">Dashboard</h1><div class="sub" id="page-sub"></div></div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="icon-btn theme-toggle" onclick="toggleTheme()" id="theme-btn">🌙</button>
+        <div class="icon-btn" id="user-chip">👤 —</div>
+      </div>
+    </div>
+
+    <!-- ============ STUDENT VIEWS ============ -->
+    <section class="view" id="view-s-dashboard">
+      <div class="cards" id="s-stat-cards"></div>
+      <div class="panel">
+        <div class="row-between"><h3>Continue Learning</h3></div>
+        <div id="s-continue"></div>
+      </div>
+      <div class="panel">
+        <h3>My Enrolled Courses</h3>
+        <div class="course-grid" id="s-dash-courses"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-s-browse">
+      <div class="panel">
+        <div class="row-between">
+          <h3>Browse Courses</h3>
+          <div class="searchbar">
+            <input id="sb-search" placeholder="Search courses..." oninput="renderStudentBrowse()">
+            <select id="sb-cat" onchange="renderStudentBrowse()"><option value="all">All Categories</option></select>
+          </div>
+        </div>
+        <div class="course-grid" id="sb-grid"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-s-mycourses">
+      <div class="panel">
+        <h3>My Courses</h3>
+        <div class="course-grid" id="s-my-grid"></div>
+        <div id="s-my-empty" class="empty-state hidden">You haven't enrolled in any courses yet.</div>
+      </div>
+    </section>
+
+    <section class="view" id="view-course-player">
+      <button class="btn btn-outline btn-sm" style="margin-bottom:14px;" onclick="showView('s-mycourses')">← Back to My Courses</button>
+      <div class="panel">
+        <div class="row-between"><h3 id="cp-title">Course</h3><span id="cp-progress-txt" style="font-size:12.5px;color:var(--muted);"></span></div>
+        <div class="progress-bar" style="margin-bottom:16px;"><div class="fill" id="cp-progress-fill" style="width:0%"></div></div>
+        <div class="tab-strip">
+          <button id="cp-tab-video" class="active" onclick="setPlayerTab('video')">Lecture</button>
+          <button id="cp-tab-notes" onclick="setPlayerTab('notes')">Notes</button>
+          <button id="cp-tab-quiz" onclick="setPlayerTab('quiz')">Quiz</button>
+        </div>
+        <div id="cp-pane-video" class="player-layout">
+          <div>
+            <div id="cp-yt-banner"></div>
+            <div class="video-box" id="cp-video-box">
+              <div id="cp-video-placeholder" style="display:flex;flex-direction:column;align-items:center;gap:10px;"></div>
+            </div>
+            <div style="margin-top:14px;font-size:13px;color:var(--muted);" id="cp-lesson-desc"></div>
+            <button class="btn btn-primary" style="margin-top:14px;" id="cp-complete-btn" onclick="markLessonComplete()">Mark Lesson as Completed</button>
+          </div>
+          <div class="card" style="padding:10px;">
+            <div style="font-size:12.5px;font-weight:700;padding:6px;">Lessons</div>
+            <div id="cp-lesson-list"></div>
+          </div>
+        </div>
+        <div id="cp-pane-notes" class="hidden">
+          <div id="cp-notes-content" style="font-size:13.5px;line-height:1.8;color:var(--muted);"></div>
+        </div>
+        <div id="cp-pane-quiz" class="hidden">
+          <div id="cp-quiz-area"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-s-certificates">
+      <div class="panel">
+        <h3>My Certificates</h3>
+        <div class="course-grid" id="s-cert-grid"></div>
+        <div id="s-cert-empty" class="empty-state hidden">Complete a course and pass its quiz to earn a certificate.</div>
+      </div>
+    </section>
+
+    <section class="view" id="view-cert-detail">
+      <button class="btn btn-outline btn-sm" style="margin-bottom:14px;" onclick="showView('s-certificates')">← Back</button>
+      <div id="cert-print"><div class="cert-frame" id="cert-frame-content"></div></div>
+      <div style="text-align:center;margin-top:20px;"><button class="btn btn-primary" onclick="window.print()">🖨️ Print / Save as PDF</button></div>
+    </section>
+
+    <section class="view" id="view-s-notifications">
+      <div class="panel"><h3>Notifications</h3><div id="s-notif-list"></div><div id="s-notif-empty" class="empty-state hidden">No notifications yet.</div></div>
+    </section>
+
+    <section class="view" id="view-s-profile">
+      <div class="panel" style="max-width:480px">
+        <h3>Profile</h3>
+        <div class="ok-msg" id="sp-ok"></div>
+        <div class="field" style="margin-bottom:12px"><label>Full Name</label><input id="sp-name"></div>
+        <div class="field" style="margin-bottom:12px"><label>Email</label><input id="sp-email" disabled></div>
+        <button class="btn btn-outline btn-block" onclick="saveStudentProfile()">Save Changes</button>
+      </div>
+    </section>
+
+    <!-- ============ INSTRUCTOR VIEWS ============ -->
+    <section class="view" id="view-i-dashboard">
+      <div class="cards" id="i-stat-cards"></div>
+      <div class="panel"><h3>My Courses</h3><div class="course-grid" id="i-dash-courses"></div></div>
+    </section>
+
+    <section class="view" id="view-i-courses">
+      <div class="panel">
+        <div class="row-between"><h3>My Courses</h3><button class="btn btn-primary btn-sm" onclick="openCourseForm()">+ Create Course</button></div>
+        <div class="course-grid" id="i-courses-grid"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-i-students">
+      <div class="panel">
+        <h3>Enrolled Students</h3>
+        <div class="searchbar" style="margin-bottom:12px;"><select id="is-course" onchange="renderInstructorStudents()"></select></div>
+        <div class="table-wrap"><table><thead><tr><th>Student</th><th>Progress</th><th>Quiz Score</th><th>Status</th></tr></thead><tbody id="is-body"></tbody></table></div>
+        <div id="is-empty" class="empty-state hidden">No students enrolled yet.</div>
+      </div>
+    </section>
+
+    <section class="view" id="view-i-profile">
+      <div class="panel" style="max-width:480px">
+        <h3>Instructor Profile</h3>
+        <div class="ok-msg" id="ip-ok"></div>
+        <div class="field" style="margin-bottom:12px"><label>Full Name</label><input id="ip-name"></div>
+        <div class="field" style="margin-bottom:12px"><label>Email</label><input id="ip-email" disabled></div>
+        <button class="btn btn-outline btn-block" onclick="saveInstructorProfile()">Save Changes</button>
+      </div>
+    </section>
+
+    <!-- ============ ADMIN VIEWS ============ -->
+    <section class="view" id="view-a-dashboard">
+      <div class="cards" id="a-stat-cards"></div>
+      <div class="panel"><h3>Enrollments Overview</h3><div class="chart-bars" id="a-chart"></div></div>
+    </section>
+
+    <section class="view" id="view-a-students">
+      <div class="panel">
+        <div class="row-between"><h3>Manage Students</h3><div class="searchbar"><input id="as-search" placeholder="Search students..." oninput="renderAdminStudents()"></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Enrolled Courses</th><th>Action</th></tr></thead><tbody id="as-body"></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-a-instructors">
+      <div class="panel">
+        <div class="row-between"><h3>Manage Instructors</h3><div class="searchbar"><input id="ai-search" placeholder="Search instructors..." oninput="renderAdminInstructors()"></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Courses</th><th>Status</th><th>Action</th></tr></thead><tbody id="ai-body"></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-a-courses">
+      <div class="panel">
+        <div class="row-between"><h3>Manage Courses</h3><div class="searchbar"><input id="ac-search" placeholder="Search courses..." oninput="renderAdminCourses()"></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Title</th><th>Instructor</th><th>Category</th><th>Enrollments</th><th>Status</th><th>Action</th></tr></thead><tbody id="ac-body"></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-a-categories">
+      <div class="panel">
+        <div class="row-between"><h3>Manage Categories</h3></div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;max-width:360px;">
+          <input id="new-cat" placeholder="New category name" style="flex:1;padding:9px 11px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-size:12.5px;">
+          <button class="btn btn-primary btn-sm" onclick="addCategory()">Add</button>
+        </div>
+        <div id="cat-manage-list" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-a-feedback">
+      <div class="panel"><h3>User Feedback / Reports</h3>
+        <div class="table-wrap"><table><thead><tr><th>From</th><th>Message</th><th>Date</th></tr></thead><tbody id="af-body"></tbody></table></div>
+        <div id="af-empty" class="empty-state hidden">No feedback submitted yet.</div>
+      </div>
+    </section>
+
+    <section class="view" id="view-a-settings">
+      <div class="panel" style="max-width:480px">
+        <h3>Website Settings</h3>
+        <div class="ok-msg" id="set-ok"></div>
+        <div class="field" style="margin-bottom:12px"><label>Site Name</label><input id="set-name"></div>
+        <div class="field" style="margin-bottom:12px"><label>Tagline</label><input id="set-tagline"></div>
+        <button class="btn btn-outline btn-block" onclick="saveSettings()">Save Settings</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- COURSE CREATE/EDIT MODAL -->
+<div class="modal-bg" id="course-modal">
+  <div class="modal wide">
+    <h3 id="cf-title">Create Course</h3>
+    <div class="error-msg" id="cf-error"></div>
+    <div class="grid2" style="margin-bottom:10px;">
+      <div class="field"><label>Course Title</label><input id="cf-title-input"></div>
+      <div class="field"><label>Category</label><select id="cf-cat"></select></div>
+    </div>
+    <div class="field" style="margin-bottom:10px;"><label>Description</label><textarea id="cf-desc" rows="2"></textarea></div>
+    <div class="grid2" style="margin-bottom:10px;">
+      <div class="field"><label>Difficulty Level</label><select id="cf-level"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></div>
+      <div class="field"><label>Duration (e.g. "6 weeks")</label><input id="cf-duration" placeholder="6 weeks"></div>
+    </div>
+    <div class="field" style="margin-bottom:10px;"><label>Thumbnail Emoji</label><input id="cf-thumb" placeholder="📘" maxlength="2"></div>
+
+    <div class="panel" style="padding:12px;">
+      <div class="row-between" style="margin-bottom:8px;"><b style="font-size:13px;">Lessons</b><button class="btn btn-outline btn-sm" onclick="addLessonField()">+ Add Lesson</button></div>
+      <div id="cf-lessons"></div>
+    </div>
+
+    <div class="panel" style="padding:12px;">
+      <div class="row-between" style="margin-bottom:8px;"><b style="font-size:13px;">Quiz Questions</b><button class="btn btn-outline btn-sm" onclick="addQuestionField()">+ Add Question</button></div>
+      <div id="cf-questions"></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-outline" onclick="closeCourseModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCourse()">Save Course</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-stack" id="toast-stack"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
